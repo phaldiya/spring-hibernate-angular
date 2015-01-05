@@ -1,0 +1,16 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd" name="sitEhCache">
+
+    <defaultCache
+            maxElementsInMemory="50000"
+            eternal="false"
+            overflowToDisk="false"
+            timeToIdleSeconds="7200"
+            timeToLiveSeconds="7200"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"/>
+
+    <!--<cache name="sushiBuilding" maxElementsInMemory="10000" eternal="false" overflowToDisk="false" />
+    <cache name="metaBuildingList" maxElementsInMemory="10000" eternal="false" overflowToDisk="false" />
+    <cache name="programCategory" maxElementsInMemory="10000" eternal="false" overflowToDisk="false" />-->
+</ehcache>

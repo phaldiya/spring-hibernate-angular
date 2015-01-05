@@ -1,0 +1,21 @@
+<div class="person-list-page">
+    <header>
+        <h1>List of Persons</h1>
+    </header>
+    <section>
+        <table class="table-bordered table-condensed">
+            <tbody>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr ng-repeat="person in persons | orderBy: 'firstName'">
+                    <td><a ng-href="#/person/{{person.id}}">{{person.$typeahead}}</a></td>
+                    <td>{{person.email}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>
