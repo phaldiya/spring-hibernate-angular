@@ -30,6 +30,7 @@
     "karma-phantomjs-launcher": "latest",
     "karma-sinon": "^1.0.4",
     "phantomjs": "^1.9.7-3",
-    "protractor": "^1.5.0"
+    "protractor": "^1.6.1",
+    "jasmine": "^2.1.1"
   }
 }

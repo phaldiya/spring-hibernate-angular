@@ -15,8 +15,8 @@ exports.config = {
 
     // If sauceUser and sauceKey are specified, seleniumServerJar will be ignored.
     // The tests will be run remotely using Sauce Labs.
-    //sauceUser: 'teampurple',
-    //sauceKey: 'e3acae46-9d4e-4d75-a69c-d874934b9d56',
+    //sauceUser: '',
+    //sauceKey: '',
 
 
 
@@ -31,13 +31,17 @@ exports.config = {
     // tests, use multiCapabilities, which takes an array of capabilities.
     // If this is specified, capabilities will be ignored.
     // http://peter.sh/experiments/chromium-command-line-switches/
-    multiCapabilities: [{   'browserName': 'chrome',
-                            'chromeOptions': {
-                            args: [ '--test-type',
-                                    '--disable-extensions']
-                            }
-                        }
-                        /*{ 'browserName': 'firefox' } */],
+    multiCapabilities: [{
+        'browserName': 'chrome',
+        'chromeOptions': {
+            args: ['--test-type',
+                   '--disable-extensions',
+                   '--disable-cache',
+                   '--disable-offline-load-stale-cache',
+                   '--disk-cache-size=0',
+                   '--v8-cache-options=off']}
+        }
+        /*, { 'browserName': 'firefox' } */],
 
 
     // ---------------------------------------------------------------------------
@@ -60,14 +64,6 @@ exports.config = {
         browser.driver.manage().window().setSize(1200, 1024);
 
         browser.driver.get(exports.config.baseUrl.replace('secure/', ''));
-        /*browser.driver.executeScript(
-                "var xhr = new XMLHttpRequest(); " +
-                "xhr.onload = function(){ window.sessionStorage.token = JSON.parse(xhr.responseText).token; }; " +
-                "xhr.open('GET', 'devtool/e2e/prepare', false); " +
-                "xhr.send();"
-        );*/
-
-        browser.get('#/');
     },
 
 
@@ -76,14 +72,23 @@ exports.config = {
     // ---------------------------------------------------------------------------
 
     // Test framework to use.
-    framework: 'jasmine',
+    framework: 'jasmine2',
 
     // Options to be passed to Jasmine-node.
     jasmineNodeOpts: {
+        showColors: true,               // If true, print colors to the terminal.
+        defaultTimeoutInterval: 50000   // Default time to wait in ms before a test fails.
+        // print: function() {},           // Function called to print jasmine results.
+        // grep: 'pattern',                // If set, only execute specs whose names match the pattern, which is internally compiled to a RegExp.
+        // invertGrep: false               // Inverts 'grep' matches
+    }
+
+    // Options to be passed to Jasmine-node.
+    /*jasmineNodeOpts: {
         onComplete: null,
         isVerbose: true,
         showColors: true,
         includeStackTrace: true,
         defaultTimeoutInterval: 30000
-    }
+    }*/
 };

@@ -2,6 +2,7 @@
 
 angular.module('app', ['ngResource', 'ngRoute', 'ngCookies', 'ngAnimate', 'ngTouch', 'ngAria', 'ui.bootstrap'])
     .config(function ($httpProvider, $routeProvider) {
+        $httpProvider.interceptors.push('InterceptorService');
         $routeProvider
             .when('/', {
                 templateUrl: '../resources/scripts/controllers/home.html',

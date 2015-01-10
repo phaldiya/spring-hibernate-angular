@@ -20,11 +20,11 @@ public class SpringSecurityAuditorAware implements AuditorAware<Person> {
 
     @Override
     public Person getCurrentAuditor() {
-        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             // return system user if authentication isn't present*/
             return repository.getEntityManager().getReference(Person.class, 1);
-        /*}
-        return repository.getEntityManager().getReference(Person.class, Integer.parseInt(authentication.getName()));*/
+        }
+        return repository.getEntityManager().getReference(Person.class, Integer.parseInt(authentication.getName()));
     }
 }

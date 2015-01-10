@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
 
-    <title>${siteTitle}</title>
+    <title>${appTitle}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0 minimum-scale=1.0">
 
     <link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,100italic,300italic,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -17,7 +17,7 @@
     <script src="../resources/lib/less.js"></script>
     <!-- endinject -->
 </head>
-<body ng-controller="NavigationCtrl" ng-class="{active: sideMenu}" >
+<body ng-controller="NavigationCtrl" ng-class="{active: sideMenu}" ng-init="init()" >
 
 <div class="navbar navbar-default navbar-fixed-top ${enviroment != 'prod' ? 'navbar-gray' : ''}" role="navigation">
     <div class="container-fluid">
@@ -29,7 +29,7 @@
             </button>
 
             <div class="dropdown">
-                <a class="navbar-brand dropdown-toggle text-center" ng-click="sideMenu = false">${siteTitle}</a>
+                <a class="navbar-brand dropdown-toggle text-center" ng-click="sideMenu = false">${appTitle}</a>
                 <%--<ul class="dropdown-menu">
                     <li><a href="https://ehs.ucop.edu/ucsafety/secure/">UC Safety Dashboard</a></li>
                 </ul>--%>
@@ -43,39 +43,17 @@
             </ul>
         </div>
 
-        <%--<div class="navbar-right dropdown" dropdown on-toggle="toggled(open)">
-            <div class="demo" ng-if="${enviroment.compareToIgnoreCase("demo") == 0}" ng-cloak ><a href="../signoff">DEMO SITE</a></div>
-
+        <div class="navbar-right dropdown" dropdown on-toggle="toggled(open)">
             <a href class="dropdown-toggle" dropdown-toggle>
-                <span class="uc-user"></span>
-                <span class="user" ng-cloak>{{profile.currentUser.firstName}} {{profile.currentUser.lastName}} <small>{{profile.currentRole().roleType | role}} <span ng-if="profile.currentRole().roleType === profile.ROLE_TYPES.DELEGATE">for {{profile.managedUser.firstName}} {{profile.managedUser.lastName}}</span></small></span>
+                <span class="glyphicon glyphicon-user"></span>
+                <span class="user" ng-cloak>{{user.username}}</span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li><a ng-href="#/profile/{{profile.currentUser.eppn}}/"><span class="uc-user"></span> Manage Profile</a></li>
-
-                <li ng-if="profile.hasRole(profile.ROLE_TYPES.CHEMICAL_HYGIENE_OFFICER) && profile.currentRole().roleType !== profile.ROLE_TYPES.CHEMICAL_HYGIENE_OFFICER">
-                    <a href ng-click="switchRole(profile.ROLE_TYPES.CHEMICAL_HYGIENE_OFFICER)"><span class="uc-switch-circle"></span>Switch to Chemical Hygiene Officer</a>
-                </li>
-
-                <li ng-if="profile.hasRole(profile.ROLE_TYPES.RESPONSIBLE_PERSON) && profile.currentRole().roleType !== profile.ROLE_TYPES.RESPONSIBLE_PERSON">
-                    <a href ng-click="switchRole(profile.ROLE_TYPES.RESPONSIBLE_PERSON)"><span class="uc-switch-circle"></span>Switch to Responsible Person</a>
-                </li>
-
-                <li ng-if="profile.hasRole(profile.ROLE_TYPES.AUTHORIZED_USER) && profile.currentRole().roleType !== profile.ROLE_TYPES.AUTHORIZED_USER">
-                    <a href ng-click="switchRole(profile.ROLE_TYPES.AUTHORIZED_USER)"><span class="uc-switch-circle"></span>Switch to Authorized User</a>
-                </li>
-
-                <c:if test="${devtool}">
-                    <li>
-                        <a href="../devtool/"><span class="uc-pencil-circle"></span>Development Tool</a>
-                    </li>
-                </c:if>
-
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
                 <li>
-                    <a href="../exit"><span class="uc-exit-circle"></span>Sign Out</a>
+                    <a href ng-click="logout()"><span class="uc-exit-circle"></span>Sign Out</a>
                 </li>
             </ul>
-        </div>--%>
+        </div>
     </div>
 
     <ol class="breadcrumb">
@@ -172,6 +150,7 @@
 <script src="../resources/scripts/filters/camelcase.filter.js"></script>
 <script src="../resources/scripts/filters/unique.filter.js"></script>
 
+<script src="../resources/scripts/services/interceptor.service.js"></script>
 <script src="../resources/scripts/services/util.service.js"></script>
 <script src="../resources/scripts/services/errormessage.service.js"></script>
 <script src="../resources/scripts/services/breadcrumb.service.js"></script>
@@ -182,6 +161,7 @@
 <script src="../resources/scripts/controllers/home.js"></script>
 <script src="../resources/scripts/controllers/navigation.js"></script>
 
+<%--<script src="../resources/scripts/controllers/authenticat/authenticat.js"></script>--%>
 <script src="../resources/scripts/controllers/person/person.js"></script>
 <script src="../resources/scripts/controllers/person/person.detail.js"></script>
 <script src="../resources/scripts/controllers/help/help.js"></script>
@@ -189,7 +169,7 @@
 
 <script>
     angular.element(document).ready(function () {
-        angular.module('app').constant('SHIB_URL', '${shibUrl}');
+        angular.module('app').constant('APP_URL', '${shibUrl}');
         angular.bootstrap(document, ["app"]);
     });
 </script>

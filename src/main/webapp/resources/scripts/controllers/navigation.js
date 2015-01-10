@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('app').controller('NavigationCtrl', function ($scope, $location, BreadcrumbService, ErrorMessageService) {
+angular.module('app').controller('NavigationCtrl', function ($scope, $http, $window, $location, BreadcrumbService, ErrorMessageService) {
+    $scope.authenticated = false;
     $scope.breadcrumb = BreadcrumbService.breadcrumb;
     $scope.navigation = [
         {label: 'Home', url: '/'},
@@ -8,6 +9,25 @@ angular.module('app').controller('NavigationCtrl', function ($scope, $location, 
         /*{label: 'Chemical', url: '/chemical'},*/
         {label: 'Help', url: '/help'}
     ];
+
+    $scope.user;
+
+    $scope.init = function () {
+        $http.get('api/users/current').success(function (user) {
+            if(user.username !== 'anonymousUser'){
+                $scope.user = user;
+            }
+        })
+    };
+
+    $scope.logout = function () {
+        $scope.username = undefined;
+        $scope.password = undefined;
+
+        delete $window.sessionStorage.token;
+        $scope.authenticated = false;
+        $window.location.href = '../';
+    };
 
     $scope.selectActiveTab = function (tab, toggleSidebar) {
         $scope.activeTab = tab;

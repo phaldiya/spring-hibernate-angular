@@ -92,8 +92,8 @@ public class HomeController {
     protected void populateSiteInformation(Model model) {
         String env = environment.getProperty("spring.profiles.active");
 
-        model.addAttribute("siteUrl", environment.getProperty("site.url"));
-        model.addAttribute("siteTitle", environment.getProperty("site.title"));
+        model.addAttribute("appUrl", environment.getProperty("app.url"));
+        model.addAttribute("appTitle", environment.getProperty("app.title"));
         model.addAttribute("enviroment", env);
 
         if (env.compareToIgnoreCase("local") == 0 ||

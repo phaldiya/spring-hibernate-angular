@@ -276,6 +276,27 @@ body {
     h1 { font-size: 65px; margin-bottom: 30px; }
     a.signin { position: absolute; right: 30px; top: 10px; color: #ffffff; &:hover, &:focus { text-decoration: none; } }
     .container { width: 80%; h1 { font-size: 65px; margin-bottom: 30px; } }
+
+    .login-form {
+      position: fixed;
+      top: 15px;
+      right: 10px;
+      .form-inline {
+        width: 360px;
+        input {
+          width: 150px;
+          margin-right: 1px;
+        }
+        button {
+          width: 50px;
+        }
+      }
+    }
+
+    &:after {
+      background: transparent;
+      color: #FFFFFF;
+    }
   }
 
   .devtool {
