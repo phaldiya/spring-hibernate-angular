@@ -26,10 +26,10 @@ public class User extends BaseEntity implements UserDetails {
         this.username = username;
     }
 
-    public User(String username, Date expires) {
+    /*public User(String username, Date expires) {
         this.username = username;
         this.expires = expires.getTime();
-    }
+    }*/
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -84,6 +84,7 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -136,6 +137,10 @@ public class User extends BaseEntity implements UserDetails {
         }
     }
 
+    public void setEnabled(boolean enabled) {
+        this.accountEnabled = enabled;
+    }
+
     public boolean hasRole(UserRole role) {
         return authorities.contains(role.asAuthorityFor(this));
     }
@@ -156,6 +161,7 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     @Override
+    @JsonProperty
     public boolean isEnabled() {
         return accountEnabled;
     }

@@ -43,12 +43,20 @@ public class TokenAuthenticationService {
     }
 
     public Authentication getAuthentication(HttpServletRequest request) throws IOException {
-        String token = request.getHeader(AUTH_HEADER_NAME);
-        final Spoof spoof = getSpoof(request.getInputStream());
-        User user = StringUtils.isNotEmpty(token) ? tokenHandler.parseUserFromToken(token) : (spoof != null ? userRepo.findByUsername(spoof.getSpoof()) : null);
-
-        if (user != null) {
-            return new UserAuthentication(user);
+        final String token = request.getHeader(AUTH_HEADER_NAME);
+        if (token != null) {
+            final User user = tokenHandler.parseUserFromToken(token);
+            if (user != null) {
+                return new UserAuthentication(user);
+            }
+        } else {
+            final Spoof spoof = getSpoof(request.getInputStream());
+            if (spoof != null) {
+                final User user = userRepo.findByUsername(spoof.getSpoof());
+                if (user != null) {
+                    return new UserAuthentication(user);
+                }
+            }
         }
 
         return null;
