@@ -16,6 +16,7 @@ var karma = require('karma').server;
 var karmaConfig = {
     browsers: ['PhantomJS'],
     frameworks: ['jasmine', 'sinon'],
+    reporters: ['spec'],
     files: [
         'src/main/webapp/resources/lib/angular.js',
         'bower_components/angular-mocks/angular-mocks.js',

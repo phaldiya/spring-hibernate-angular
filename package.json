@@ -1,13 +1,9 @@
 {
-  "name": "radical",
+  "name": "spring-hibernate-angular",
   "angular": "app",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "index": "src/main/webapp/WEB-INF/views/index.jsp",
   "dependencies": {
-    "isarray": "0.0.1",
-    "json3": "^3.3.2"
-  },
-  "devDependencies": {
     "conventional-changelog": "0.0.11",
     "del": "^0.1.3",
     "gulp": "^3.8.10",
@@ -35,6 +31,7 @@
     "karma-sinon": "^1.0.4",
     "moment": "~2.9.0",
     "phantomjs": "^1.9.15",
-    "protractor": "^2.1.0"
+    "protractor": "^2.1.0",
+    "karma-spec-reporter": "0.0.19"
   }
 }
