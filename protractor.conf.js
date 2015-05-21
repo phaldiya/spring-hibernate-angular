@@ -1,5 +1,6 @@
 // Reference Configuration File
 // https://github.com/angular/protractor/blob/master/docs/referenceConf.js
+var SpecReporter = require('jasmine-spec-reporter');
 
 exports.config = {
 
@@ -15,15 +16,14 @@ exports.config = {
 
     // If sauceUser and sauceKey are specified, seleniumServerJar will be ignored.
     // The tests will be run remotely using Sauce Labs.
-    //sauceUser: '',
-    //sauceKey: '',
+    //sauceUser: 'teampurple',
+    //sauceKey: 'e3acae46-9d4e-4d75-a69c-d874934b9d56',
 
 
 
     // ---------------------------------------------------------------------------
     // ----- Set up browsers -----------------------------------------------------
     // ---------------------------------------------------------------------------
-
     // For a full list of available capabilities, see
     // https://code.google.com/p/selenium/wiki/DesiredCapabilities and
     // https://code.google.com/p/selenium/source/browse/javascript/webdriver/capabilities.js
@@ -35,14 +35,14 @@ exports.config = {
         'browserName': 'chrome',
         'chromeOptions': {
             args: ['--test-type',
-                   '--disable-extensions',
-                   '--disable-cache',
-                   '--disable-offline-load-stale-cache',
-                   '--disk-cache-size=0',
-                   '--v8-cache-options=off']}
+                '--disable-extensions',
+                '--disable-cache',
+                '--disable-offline-load-stale-cache',
+                '--disk-cache-size=0',
+                '--v8-cache-options=off'
+            ]
         }
-        /*, { 'browserName': 'firefox' } */],
-
+    }],
 
     // ---------------------------------------------------------------------------
     // ----- Global test information ---------------------------------------------
@@ -50,7 +50,7 @@ exports.config = {
 
     // A base URL for your application under test. Calls to protractor.get()
     // with relative paths will be prepended with this.
-    baseUrl: 'http://localhost:9090/spring-hibernet-angular/secure/',
+    baseUrl: 'http://localhost:9090/spring-hibernate-angular/secure/',
 
     // A callback function called once protractor is ready and available, and
     // before the specs are executed
@@ -58,37 +58,33 @@ exports.config = {
     // the filename string.
     onPrepare: function() {
         // At this point, global 'protractor' object will be set up, and jasmine
-        // will be available. For example, you can add a Jasmine reporter with:
-        //     jasmine.getEnv().addReporter(new jasmine.JUnitXmlReporter(
-        //         'outputdir/', true, true));
-        browser.driver.manage().window().setSize(1200, 1024);
+        // add jasmine spec reporter
+        // reference: https://www.npmjs.com/package/jasmine-spec-reporter
+        jasmine.getEnv().addReporter(new SpecReporter({ displayStacktrace: 'summary', displayFailuresSummary: true, displaySuiteNumber: true }));
 
+        browser.driver.manage().window().setSize(1200, 1024);
         browser.driver.get(exports.config.baseUrl.replace('secure/', ''));
+        browser.executeAsyncScript(function(callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'devtool/token/user', true);
+            xhr.onload = function() { window.sessionStorage.token = JSON.parse(xhr.responseText).token; callback(); };
+            xhr.send();
+        }).then(function() { browser.get('#/'); });
     },
 
 
     // ---------------------------------------------------------------------------
     // ----- The test framework --------------------------------------------------
     // ---------------------------------------------------------------------------
-
     // Test framework to use.
     framework: 'jasmine2',
 
     // Options to be passed to Jasmine-node.
     jasmineNodeOpts: {
         showColors: true,               // If true, print colors to the terminal.
-        defaultTimeoutInterval: 50000   // Default time to wait in ms before a test fails.
-        // print: function() {},           // Function called to print jasmine results.
+        defaultTimeoutInterval: 50000,   // Default time to wait in ms before a test fails.
+        print: function() {}           // Function called to print jasmine results.
         // grep: 'pattern',                // If set, only execute specs whose names match the pattern, which is internally compiled to a RegExp.
         // invertGrep: false               // Inverts 'grep' matches
     }
-
-    // Options to be passed to Jasmine-node.
-    /*jasmineNodeOpts: {
-        onComplete: null,
-        isVerbose: true,
-        showColors: true,
-        includeStackTrace: true,
-        defaultTimeoutInterval: 30000
-    }*/
 };

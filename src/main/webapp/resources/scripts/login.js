@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app', [])
-    .config(function($httpProvider) {})
+    .config(function() {})
     .controller('LoginController', function ($scope, $http, $window) {
         $scope.login = function () {
             $scope.authenticated = false;
@@ -16,7 +16,7 @@ angular.module('app', [])
                     $scope.hasError = true;
                     $scope.message = "Access Forbidden, try again";
                 }
-            }). error(function(data, status, headers, config) {
+            }). error(function(data, status) {
                 $scope.hasError = true;
 
                 if (status === 401) {
@@ -43,7 +43,7 @@ angular.module('app', [])
                     $scope.message = "Access Forbidden, try again";
                 }
 
-            }). error(function(data, status, headers, config) {
+            }). error(function(data, status) {
                 $scope.hasError = true;
 
                 if (status === 403) {

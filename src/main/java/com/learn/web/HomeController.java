@@ -1,18 +1,30 @@
 package com.learn.web;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.learn.domain.User;
+import com.learn.repository.UserRepository;
 import com.learn.service.PersonService;
+import com.learn.stateless.security.TokenAuthenticationService;
+import com.learn.stateless.security.TokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.InternalResourceView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.StringWriter;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 @Controller
 @RequestMapping(value = "/")
@@ -24,6 +36,12 @@ public class HomeController {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private UserRepository userRepo;
+
+    @Autowired
+    private TokenAuthenticationService tokenAuthenticationService;
 
 
     @RequestMapping("/")
@@ -105,7 +123,22 @@ public class HomeController {
         } else {
             model.addAttribute("devtool", false);
         }
+    }
 
+    @Profile({"local", "dev", "ci", "postprod"})
+    @RequestMapping(value = "/devtool/token/{user}", method = RequestMethod.GET)
+    @ResponseBody
+    public String token(@PathVariable String user) throws Exception {
+        StringWriter sw = new StringWriter();
+        JsonFactory factory = new JsonFactory();
+        JsonGenerator json = factory.createGenerator(sw);
 
+        json.writeStartObject();
+        json.writeStringField("token", tokenAuthenticationService.getTokenHandler().createTokenForUser(userRepo.findByUsername(user)));
+        json.writeEndObject();
+        json.close();
+
+        System.out.println(sw.toString());
+        return sw.toString();
     }
 }

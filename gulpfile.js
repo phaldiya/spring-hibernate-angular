@@ -2,23 +2,16 @@
 
 var gulp = require('gulp');
 var del = require('del');
-var gutil = require('gulp-util');
 var concat = require('gulp-concat');
 var cssmin = require('gulp-cssmin');
 var htmlify = require('gulp-angular-htmlify');
 var inject = require("gulp-inject");
 var jshint = require('gulp-jshint');
 var less = require('gulp-less');
-var livereload = require('gulp-livereload');
 var protractor = require("gulp-protractor").protractor;
-var protractorQA = require('gulp-protractor-qa');
 var rename = require("gulp-rename");
-var uglify = require('gulp-uglify');
-var uncss = require('gulp-uncss');
 var templateCache = require('gulp-angular-templatecache');
 var karma = require('karma').server;
-var fs = require('fs');
-var changelog = require('conventional-changelog');
 
 var karmaConfig = {
     browsers: ['PhantomJS'],
@@ -90,28 +83,6 @@ gulp.task('e2e:debug', ['lint'], function (done) {
         .pipe(protractor({
             configFile: "protractor.conf.js",
             args: ['debug']
-        }));
-});
-
-gulp.task('e2e:ci', ['lint'], function (done) {
-    return gulp.src(e2eSourceFiles)
-        .pipe(protractor({
-            configFile: "protractor.ci.conf.js",
-            args: ['--browser', 'chrome', '--baseUrl', 'http://purple-ci.uctechnology.ucdavis.edu/radical/secure/' ]
-        }));
-});
-gulp.task('e2e:ci:firefox', ['lint'], function (done) {
-    return gulp.src(e2eSourceFiles)
-        .pipe(protractor({
-            configFile: "protractor.ci.conf.js",
-            args: ['--browser', 'firefox', '--baseUrl', 'http://purple-ci.uctechnology.ucdavis.edu/radical-firefox/secure/' ]
-        }));
-});
-gulp.task('e2e:ci:ie', ['lint'], function (done) {
-    return gulp.src(e2eSourceFiles)
-        .pipe(protractor({
-            configFile: "protractor.ci.conf.js",
-            args: ['--browser', 'ie', '--baseUrl', 'http://purple-ci.uctechnology.ucdavis.edu/radical-ie/secure/' ]
         }));
 });
 

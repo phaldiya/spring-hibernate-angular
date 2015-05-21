@@ -10,14 +10,14 @@ angular.module('app').controller('NavigationCtrl', function ($scope, $http, $win
         {label: 'Help', url: '/help'}
     ];
 
-    $scope.user;
+    $scope.user = null;
 
     $scope.init = function () {
         $http.get('api/users/current').success(function (user) {
             if(user.username !== 'anonymousUser'){
                 $scope.user = user;
             }
-        })
+        });
     };
 
     $scope.logout = function () {

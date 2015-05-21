@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('app').filter('urlToHyperlink', ['$parse', function ($sanitize) {
+angular.module('app').filter('urlToHyperlink', ['$parse', function () {
     return function (input) {
         if(input){
             input = _.escape(input);

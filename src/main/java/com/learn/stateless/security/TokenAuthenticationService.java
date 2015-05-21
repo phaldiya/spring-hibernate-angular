@@ -74,4 +74,8 @@ public class TokenAuthenticationService {
 
         return null;
     }
+
+    public TokenHandler getTokenHandler() {
+        return tokenHandler;
+    }
 }
