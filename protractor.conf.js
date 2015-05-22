@@ -60,7 +60,7 @@ exports.config = {
         // At this point, global 'protractor' object will be set up, and jasmine
         // add jasmine spec reporter
         // reference: https://www.npmjs.com/package/jasmine-spec-reporter
-        jasmine.getEnv().addReporter(new SpecReporter({ displayStacktrace: 'summary', displayFailuresSummary: true, displaySuiteNumber: true }));
+        jasmine.getEnv().addReporter(new SpecReporter({ displayStacktrace: 'summary', displayFailuresSummary: true }));
 
         browser.driver.manage().window().setSize(1200, 1024);
         browser.driver.get(exports.config.baseUrl.replace('secure/', ''));

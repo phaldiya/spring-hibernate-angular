@@ -21,6 +21,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.InternalResourceView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -128,17 +129,26 @@ public class HomeController {
     @Profile({"local", "dev", "ci", "postprod"})
     @RequestMapping(value = "/devtool/token/{user}", method = RequestMethod.GET)
     @ResponseBody
-    public String token(@PathVariable String user) throws Exception {
-        StringWriter sw = new StringWriter();
-        JsonFactory factory = new JsonFactory();
-        JsonGenerator json = factory.createGenerator(sw);
+    public String token(@PathVariable String user, HttpServletResponse response) throws Exception {
+        String env = environment.getProperty("spring.profiles.active");
 
-        json.writeStartObject();
-        json.writeStringField("token", tokenAuthenticationService.getTokenHandler().createTokenForUser(userRepo.findByUsername(user)));
-        json.writeEndObject();
-        json.close();
+        if (env.compareToIgnoreCase("local") == 0 ||
+                env.compareToIgnoreCase("dev") == 0 ||
+                env.compareToIgnoreCase("demo") == 0 ||
+                env.compareToIgnoreCase("ci") == 0 ||
+                env.compareToIgnoreCase("postprod") == 0) {
+            StringWriter sw = new StringWriter();
+            JsonFactory factory = new JsonFactory();
+            JsonGenerator json = factory.createGenerator(sw);
 
-        System.out.println(sw.toString());
-        return sw.toString();
+            json.writeStartObject();
+            json.writeStringField("token", tokenAuthenticationService.getTokenHandler().createTokenForUser(userRepo.findByUsername(user)));
+            json.writeEndObject();
+            json.close();
+
+            return sw.toString();
+        }
+
+        throw new Exception("URL Not Found");
     }
 }
