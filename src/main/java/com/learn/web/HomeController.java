@@ -10,6 +10,8 @@ import com.learn.stateless.security.TokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.view.InternalResourceView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -44,6 +47,8 @@ public class HomeController {
     @Autowired
     private TokenAuthenticationService tokenAuthenticationService;
 
+    @Autowired
+    private DataSource dataSource;
 
     @RequestMapping("/")
     public String index(Model model) throws Exception {
@@ -115,11 +120,7 @@ public class HomeController {
         model.addAttribute("appTitle", environment.getProperty("app.title"));
         model.addAttribute("enviroment", env);
 
-        if (env.compareToIgnoreCase("local") == 0 ||
-                env.compareToIgnoreCase("dev") == 0 ||
-                env.compareToIgnoreCase("demo") == 0 ||
-                env.compareToIgnoreCase("ci") == 0 ||
-                env.compareToIgnoreCase("postprod") == 0) {
+        if (isDevTool()) {
             model.addAttribute("devtool", true);
         } else {
             model.addAttribute("devtool", false);
@@ -129,14 +130,8 @@ public class HomeController {
     @Profile({"local", "dev", "ci", "postprod"})
     @RequestMapping(value = "/devtool/token/{user}", method = RequestMethod.GET)
     @ResponseBody
-    public String token(@PathVariable String user, HttpServletResponse response) throws Exception {
-        String env = environment.getProperty("spring.profiles.active");
-
-        if (env.compareToIgnoreCase("local") == 0 ||
-                env.compareToIgnoreCase("dev") == 0 ||
-                env.compareToIgnoreCase("demo") == 0 ||
-                env.compareToIgnoreCase("ci") == 0 ||
-                env.compareToIgnoreCase("postprod") == 0) {
+    public String token(@PathVariable String user) throws Exception {
+        if (isDevTool()) {
             StringWriter sw = new StringWriter();
             JsonFactory factory = new JsonFactory();
             JsonGenerator json = factory.createGenerator(sw);
@@ -150,5 +145,31 @@ public class HomeController {
         }
 
         throw new Exception("URL Not Found");
+    }
+
+    @RequestMapping(value = "/devtool/e2e/prepare", method = RequestMethod.GET)
+    @ResponseBody
+    public String e2ePrepare() throws Exception {
+        if ( isDevTool() && isH2()) {
+            ClassPathResource reset = new ClassPathResource("data/reset.sql");
+            ClassPathResource insert = new ClassPathResource("data/data.sql");
+            ScriptUtils.executeSqlScript(dataSource.getConnection(), reset);
+            ScriptUtils.executeSqlScript(dataSource.getConnection(), insert);
+        }
+        return token("user");
+    }
+
+    private boolean isH2(){
+        return environment.getProperty("hibernate.dialect").compareToIgnoreCase("org.hibernate.dialect.H2Dialect") == 0;
+    }
+
+    private boolean isDevTool(){
+        String env = environment.getProperty("spring.profiles.active");
+
+        return (env.compareToIgnoreCase("local") == 0 ||
+                env.compareToIgnoreCase("dev") == 0 ||
+                env.compareToIgnoreCase("demo") == 0 ||
+                env.compareToIgnoreCase("ci") == 0 ||
+                env.compareToIgnoreCase("postprod") == 0);
     }
 }

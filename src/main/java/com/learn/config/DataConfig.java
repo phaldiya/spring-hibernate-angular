@@ -78,7 +78,7 @@ public class DataConfig {
 
         String jdbcDriver = environment.getProperty("jdbc.driver");
         if (jdbcDriver != null && jdbcDriver.compareToIgnoreCase("org.h2.Driver") == 0 ) {
-            factory.getJpaPropertyMap().put("hibernate.hbm2ddl.import_files", "/data/core.base.sql");
+            factory.getJpaPropertyMap().put("hibernate.hbm2ddl.import_files", "/data/core.base.sql, data/base.sql, data/data.sql");
         }
 
         factory.afterPropertiesSet();
