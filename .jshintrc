@@ -30,14 +30,16 @@
     "globals": {
         "angular": false,
         "afterEach": false,
+        "afterAll": false,
         "beforeEach": false,
+        "beforeAll":false,
         "confirm": false,
         "context": false,
         "describe": false,
-        "ddescribe": false,
+        "fdescribe": false,
         "expect": false,
         "it": false,
-        "iit": false,
+        "fit": false,
         "jasmine": false,
         "spyOn": false,
         "inject": false,
@@ -56,10 +58,11 @@
         "moment": false,
         "IDBKeyRange": false,
         "sinon": false,
-        "Helper": false,
-        "PersonPage": false,
         "protractor": false,
         "by": false,
-        "ga": false
+        "ga": false,
+        "Helper": false,
+        "PersonPage": false,
+        "HospitalPage": false
     }
 }

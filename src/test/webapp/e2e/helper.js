@@ -11,10 +11,19 @@ global.Helper = {
     }
 };
 
+// reset h2 database after testing (only called once at the end)
+/*aftereAll(function (done) {
+    resetData(done);
+});*/
+
 // reset h2 database before each test
 beforeEach(function (done) {
-    var url = browser.baseUrl.replace('secure/', '') + 'devtool/e2e/prepare';
-    http.get(url, function () { done(); }).on('error', function (e) {
-        done.fail('Error resetting data: ' + e.message);
-    });
+    resetData(done);
 });
+
+function resetData(callback) {
+    var url = browser.baseUrl.replace('secure/', '') + 'devtool/e2e/prepare';
+    http.get(url, function () { callback(); }).on('error', function (e) {
+        callback.fail('Error resetting data: ' + e.message);
+    });
+}
