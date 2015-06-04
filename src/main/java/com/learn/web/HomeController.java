@@ -151,12 +151,16 @@ public class HomeController {
     @ResponseBody
     public String e2ePrepare() throws Exception {
         if ( isDevTool() && isH2()) {
+            System.out.println("Reset database ...");
             ClassPathResource reset = new ClassPathResource("data/reset.sql");
             ClassPathResource insert = new ClassPathResource("data/data.sql");
             ScriptUtils.executeSqlScript(dataSource.getConnection(), reset);
             ScriptUtils.executeSqlScript(dataSource.getConnection(), insert);
         }
-        return token("user");
+
+        String token = token("user");
+        System.out.println(token);
+        return token;
     }
 
     private boolean isH2(){

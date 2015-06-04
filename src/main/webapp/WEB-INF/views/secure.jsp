@@ -155,6 +155,11 @@
 <script src="../resources/scripts/services/errormessage.service.js"></script>
 <script src="../resources/scripts/services/breadcrumb.service.js"></script>
 <script src="../resources/scripts/services/person.service.js"></script>
+<script src="../resources/scripts/services/school.service.js"></script>
+<script src="../resources/scripts/services/college.service.js"></script>
+<script src="../resources/scripts/services/hospital.service.js"></script>
+<script src="../resources/scripts/services/category.service.js"></script>
+<script src="../resources/scripts/services/product.service.js"></script>
 
 <script src="../resources/scripts/directives/angularui.js"></script>
 
@@ -162,7 +167,15 @@
 <script src="../resources/scripts/controllers/navigation.js"></script>
 
 <%--<script src="../resources/scripts/controllers/authenticat/authenticat.js"></script>--%>
+<script src="../resources/scripts/controllers/product/product.js"></script>
+
 <script src="../resources/scripts/controllers/person/person.js"></script>
+<script src="../resources/scripts/controllers/school/school.js"></script>
+<script src="../resources/scripts/controllers/college/college.js"></script>
+<script src="../resources/scripts/controllers/hospital/hospital.js"></script>
+<script src="../resources/scripts/controllers/category/category.js"></script>
+
+
 <script src="../resources/scripts/controllers/person/person.detail.js"></script>
 <script src="../resources/scripts/controllers/help/help.js"></script>
 

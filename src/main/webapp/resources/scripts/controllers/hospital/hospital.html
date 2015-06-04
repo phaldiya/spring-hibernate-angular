@@ -1,0 +1,67 @@
+<div class="hospital-list-page">
+    <header>
+        <h1>List of Hospital</h1><!--<pre>{{hospitalForm | json}}</pre>-->
+    </header>
+    <section>
+        <table class="table-bordered table-condensed">
+            <tbody>
+            <tr ng-show="show">
+                <td colspan="4">
+                    <form name="hospitalForm" ng-submit="hospitalForm.$valid && save()" novalidate="true">
+                        <table>
+                            <tr>
+                                <td>
+                                    Name:
+                                </td>
+                                <td>
+                                    <input type="text" ng-model="newhospital.hospitalName" name="hospitalName"
+                                           id="hospitalName" ng-maxlength="10" ng-trim="true" ng-required="true">
+                                        {{newhospital.hospitalName}}
+                                    <p ng-show="hospitalForm.$submitted && hospitalForm.$error.required">Name
+                                        Rewquired</p>
+
+                                    <p ng-show="hospitalForm.$submitted && hospitalForm.$error.maxlength">maxlength
+                                        10</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    City:
+                                </td>
+                                <td>
+                                    <input type="text" ng-model="newhospital.hospitalCity" name="hospitalCity"
+                                           id="hospitalCity">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="submit" value="Save">
+                                    <input type="button" ng-click="clearForm()" value="Cancel">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"><input type="button" value="Add New" ng-click="addNew()" ng-show="addshow"></td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>City</th>
+                <th>Delete</th>
+                <th>Edit</th>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr ng-repeat="hospital in hospitals | orderBy: 'hospitalCity'">
+                <td class="name">{{hospital.hospitalName}}</td>
+                <td class="city">{{hospital.hospitalCity}}</td>
+                <td><input type="button" value="Delete" ng-click="delete(hospital)"></td>
+                <td><input type="button" value="Edit" ng-click="edit(hospital)"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</div>

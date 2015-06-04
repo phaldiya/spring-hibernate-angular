@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface PersonRepository extends CustomJpaRepository<Person, Integer> {
     @Query("select p from Person p")
-    List<Person> getAll();
+    List<Person>  getAll();
 }

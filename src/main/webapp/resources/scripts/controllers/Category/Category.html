@@ -1,0 +1,30 @@
+<div class="Category-list-page">
+    <header>
+        <h1>List of Category</h1><!--<pre>{{hospitalForm | json}}</pre>-->
+    </header>
+    <section>
+        <table class="table-bordered table-condensed">
+            <tbody>
+
+
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Products</th>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr ng-repeat="category in categorys | orderBy: 'name'">
+
+                <td class="name">{{category.name}}</td>
+                <td class="discription">{{category.discription}}
+                <td class="product">
+                    <ul>
+                        <li ng-repeat="prod in category.product">{{prod.productName}}</li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</div>

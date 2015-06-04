@@ -31,18 +31,24 @@ exports.config = {
     // tests, use multiCapabilities, which takes an array of capabilities.
     // If this is specified, capabilities will be ignored.
     // http://peter.sh/experiments/chromium-command-line-switches/
-    multiCapabilities: [{
-        'browserName': 'chrome',
-        'chromeOptions': {
-            args: ['--test-type',
-                '--disable-extensions',
-                '--disable-cache',
-                '--disable-offline-load-stale-cache',
-                '--disk-cache-size=0',
-                '--v8-cache-options=off'
-            ]
+    multiCapabilities: [
+        {
+            'browserName': 'chrome'/*,
+            'chromeOptions': {
+                args: ['--test-type',
+                    '--disable-extensions',
+                    '--disable-cache',
+                    '--disable-offline-load-stale-cache',
+                    '--disk-cache-size=0',
+                    '--v8-cache-options=off'
+                ]
+            }*/
         }
-    }],
+        /*,
+        {
+            'browserName': 'firefox'
+        }*/
+    ],
 
     // ---------------------------------------------------------------------------
     // ----- Global test information ---------------------------------------------

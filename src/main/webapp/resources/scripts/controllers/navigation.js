@@ -6,7 +6,7 @@ angular.module('app').controller('NavigationCtrl', function ($scope, $http, $win
     $scope.navigation = [
         {label: 'Home', url: '/'},
         {label: 'Person', url: '/person'},
-        /*{label: 'Chemical', url: '/chemical'},*/
+        {label: 'Hospital', url: '/hospital'},
         {label: 'Help', url: '/help'}
     ];
 
