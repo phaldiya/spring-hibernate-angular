@@ -8,7 +8,7 @@ import com.learn.domain.Category;
 
 import java.io.IOException;
 
-public class CategorySerializer extends JsonSerializer<Category> {
+public class CategorySimpleSerializer extends JsonSerializer<Category> {
 
     @Override
     public void serialize(Category value, JsonGenerator jgen, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {

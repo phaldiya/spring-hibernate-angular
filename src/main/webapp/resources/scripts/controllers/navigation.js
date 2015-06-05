@@ -7,6 +7,8 @@ angular.module('app').controller('NavigationCtrl', function ($scope, $http, $win
         {label: 'Home', url: '/'},
         {label: 'Person', url: '/person'},
         {label: 'Hospital', url: '/hospital'},
+        {label: 'Category', url: '/category'},
+        {label: 'Product', url: '/product'},
         {label: 'Help', url: '/help'}
     ];
 

@@ -3,6 +3,7 @@ package com.learn.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.learn.domain.conf.BaseEntity;
+import com.learn.domain.serializer.CategorySimpleSerializer;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -51,7 +52,7 @@ public class Product extends BaseEntity {
         return prodeuctDescription;
     }
 
-    @JsonSerialize(using = com.learn.domain.serializer.CategorySerializer.class)
+    @JsonSerialize(using = CategorySimpleSerializer.class)
     public Category getCategory() {
         return category;
     }

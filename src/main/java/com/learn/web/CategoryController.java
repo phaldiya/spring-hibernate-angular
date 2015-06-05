@@ -12,11 +12,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/secure/api/category")
 public class CategoryController {
-@Autowired
+    @Autowired
     CategoryService categoryService;
+
     @RequestMapping(method = RequestMethod.GET)
-    public Object getAll() {
-        return categoryService.getAll();
+    public Object getAll() throws Exception {
+        return categoryService.toJsonWithChildrens(categoryService.getAll());
+    }
+
+    @RequestMapping(value="/dropdown", method = RequestMethod.GET)
+    public Object getCategoryDropdown() throws Exception {
+        return categoryService.toJson(categoryService.getAll());
     }
 
     @RequestMapping(method = RequestMethod.POST)

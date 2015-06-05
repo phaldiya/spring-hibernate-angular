@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('app').controller('ProductCtrl', function ($scope, product, ProductService) {
+angular.module('app').controller('ProductCtrl', function ($scope, product, categories, ProductService) {
     $scope.products = product;
+    $scope.categories = categories;
     $scope.addvisible=true;
     $scope.formisible=false;
 
