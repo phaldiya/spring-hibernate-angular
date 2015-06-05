@@ -2,6 +2,8 @@ package com.learn.service;
 
 import com.learn.domain.Category;
 import com.learn.repository.CategoryRepository;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,5 +33,15 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category,Integer> imple
     @Override
     public List<Category> getAll() {
         return categoryRepository.findAll();
+    }
+
+    @Override
+    public void  delete(Integer id) {
+         categoryRepository.delete(id);
+    }
+
+    @Override
+    public void copyFormBean(Category source, Category destination) {
+        BeanUtils.copyProperties(source, destination, ArrayUtils.addAll(IGNORE_PROPERTIES, "product"));
     }
 }

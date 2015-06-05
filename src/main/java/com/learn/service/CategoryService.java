@@ -9,4 +9,8 @@ import java.util.List;
  */
 public interface CategoryService extends BaseService<Category,Integer>{
     List<Category> getAll();
+
+    public void delete(Integer id);
+    void copyFormBean(Category source, Category destination);
+
 }
