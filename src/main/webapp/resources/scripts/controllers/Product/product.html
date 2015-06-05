@@ -5,7 +5,20 @@
     <section>
         <table class="table-bordered table-condensed">
             <tbody>
+<tr><td colspan="6">
+    <input type="button" value="Add"  ng-click="addnewproduct()" ng-show="addvisible">
+    <form name="addprouct" ng-show="formisible" ng-submit="save()">
+<table>
+    <tr><td>Category</td><td><select name="category" ng-model="newproduct.Category"><option selected="true">Select One</option></select></td></tr>
+    <tr><td>Product Name</td><td><input type="text" ng-model="newproduct.productName"></td></tr>
+    <tr><td>Product Description</td><td><input type="text" ng-model="newproduct.prodeuctDescription"></td></tr>
+    <tr><td>Price</td><td><input type="text" ng-model="newproduct.price"></td></tr>
+    <tr><td colspan="2"><input type="submit" value="Save"><input type="button" value="Cancel" ng-click="clear()"></td></tr>
 
+</table>
+
+    </form>
+</td></tr>
 
             <tr>
                 <th>Name</th>
@@ -13,6 +26,7 @@
                 <th>Description</th>
                 <th>price</th>
                 <th>category</th>
+                <th>Delete</th>
 
             </tr>
             </tbody>
@@ -23,6 +37,8 @@
                 <td class="discription">{{product.prodeuctDescription}}</td>
                 <td class="Price">{{product.price}}</td>
                 <td class="Category">{{product.category.name}}</td>
+                <td><input type="button" ng-click="edit(product)" value="Edit"></td>
+                <td><input type="button" ng-click="delete(product)" value="Delete"></td>
 
             </tr>
 

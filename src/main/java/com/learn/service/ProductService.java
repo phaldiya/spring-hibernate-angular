@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface ProductService extends BaseService<Product,Integer> {
     List<Product> getAll();
+
+    public void delete(Integer productId);
 }

@@ -31,4 +31,9 @@ public class ProductServiceImpl extends BaseServiceImpl<Product,Integer> impleme
     public List<Product> getAll() {
         return productRepository.findAll();
     }
+
+    @Override
+    public void delete(Integer productId) {
+        productRepository.delete(productId);
+    }
 }
