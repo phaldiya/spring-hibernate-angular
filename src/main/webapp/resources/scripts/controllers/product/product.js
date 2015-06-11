@@ -7,7 +7,7 @@ angular.module('app').controller('ProductCtrl', function ($scope, product, categ
     $scope.formisible=false;
 
     $scope.delete=function(product){
-        ProductService.delete({productId: product.productId},function(response){
+        ProductService.delete({productId: product.productId},function(){
             $scope.products.splice($scope.products.indexOf(product),1);
         });
     };

@@ -39,6 +39,7 @@
         "fdescribe": false,
         "expect": false,
         "it": false,
+        "xit": false,
         "fit": false,
         "jasmine": false,
         "spyOn": false,

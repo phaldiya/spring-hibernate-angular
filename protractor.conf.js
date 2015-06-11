@@ -12,7 +12,7 @@ exports.config = {
     // to the location of this config. If no other method of starting Selenium
     // Server is found, this will default to
     // node_modules/protractor/selenium/selenium-server...
-    //seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.44.0.jar',
+    //seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.45.0.jar',
 
     // If sauceUser and sauceKey are specified, seleniumServerJar will be ignored.
     // The tests will be run remotely using Sauce Labs.
@@ -32,8 +32,8 @@ exports.config = {
     // If this is specified, capabilities will be ignored.
     // http://peter.sh/experiments/chromium-command-line-switches/
     multiCapabilities: [
-        {
-            'browserName': 'chrome'/*,
+        /*{
+            'browserName': 'chrome',
             'chromeOptions': {
                 args: ['--test-type',
                     '--disable-extensions',
@@ -42,12 +42,12 @@ exports.config = {
                     '--disk-cache-size=0',
                     '--v8-cache-options=off'
                 ]
-            }*/
+            }
         }
-        /*,
+        ,*/
         {
             'browserName': 'firefox'
-        }*/
+        }
     ],
 
     // ---------------------------------------------------------------------------

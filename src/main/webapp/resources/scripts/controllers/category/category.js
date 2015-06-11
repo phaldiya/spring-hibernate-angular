@@ -12,7 +12,7 @@ angular.module('app').controller('CategoryCtrl', function ($scope, category, Cat
 
     $scope.savenew=function()
     {
-        if($scope.newcategory.id == undefined)
+        if($scope.newcategory.id === undefined)
         {
         CategoryService.save($scope.newcategory,function(response){
         $scope.categorys.push(response);
@@ -37,7 +37,7 @@ angular.module('app').controller('CategoryCtrl', function ($scope, category, Cat
     };
 
     $scope.delete = function(category){
-        CategoryService.delete(category,function(response){
+        CategoryService.delete(category,function(){
             $scope.categorys.splice($scope.categorys.indexOf(category) , 1);
         });
     };
