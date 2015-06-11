@@ -1,6 +1,7 @@
 package com.learn.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.learn.domain.conf.BaseEntity;
 
 import javax.persistence.Table;
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.Collection;
 
 @Entity
 @Table(schema = "core")
-public class Category {
+public class Category extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +23,7 @@ public class Category {
 
     private String discription;
 
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private Collection<Product> product = new ArrayList<Product>();
 
     @JsonProperty

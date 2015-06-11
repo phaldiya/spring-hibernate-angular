@@ -7,14 +7,20 @@ angular.module('app').controller('ProductCtrl', function ($scope, product, categ
     $scope.formisible=false;
 
     $scope.delete=function(product){
-        ProductService.delete(product,function(response){
-        $scope.products.splice($scope.products.indexOf(product),1);
+        ProductService.delete({productId: product.productId},function(response){
+            $scope.products.splice($scope.products.indexOf(product),1);
         });
-    }
+    };
+
+    $scope.save=function(){
+        ProductService.save($scope.newproduct,function(response){
+            console.log(response);
+        });
+    };
 
     $scope.addnewproduct=function(){
          $scope.addvisible=false;
             $scope.formisible=true;
-    }
+    };
 });
 

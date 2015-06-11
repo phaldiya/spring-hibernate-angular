@@ -25,6 +25,7 @@ public class CustomJpaRepositoryImpl<T, ID extends Serializable> extends SimpleJ
 
     @Override
     public <S extends T> S save(S entity) {
+        //super.save(entity);
         entityManager.persist(entity);
         return entity;
     }

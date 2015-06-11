@@ -1,12 +1,10 @@
 package com.learn.web;
 
+import com.learn.domain.Product;
 import com.learn.service.CategoryService;
 import com.learn.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by priyaan-pc on 6/3/2015.
@@ -22,9 +20,24 @@ public class ProductController {
         return productService.getAll();
     }
 
-    @RequestMapping(value = "/{productId}",method = RequestMethod.DELETE)
-    public Object delete(@PathVariable Integer productId)
+    @RequestMapping(method = RequestMethod.POST)
+    public Object save(@RequestBody Product formBean) throws Exception
     {
-        productService.delete(productId);
+        return productService.toJson(productService.save(formBean));
+    }
+
+    @RequestMapping(value = "/{productId}",method = RequestMethod.DELETE)
+    public Object delete(@PathVariable Integer productId) throws Exception
+    {
+        try {
+            Product product = productService.find(productId);
+        /*product.setCategory(null);
+        productService.save(product);
+*/
+            productService.delete(product.getProductId());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return true;
-    }}
+    }
+}

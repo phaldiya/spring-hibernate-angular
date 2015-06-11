@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.learn.domain.conf.BaseEntity;
 import com.learn.domain.serializer.CategorySimpleSerializer;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -15,11 +16,12 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(schema = "core")
+/*@Where(clause = "Category is not null")*/
 public class Product extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int productId;
+    private Integer productId;
 
     @NotNull
     private String productName;
@@ -33,7 +35,7 @@ public class Product extends BaseEntity {
     private Category category;
 
     @JsonProperty
-    public int getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 
@@ -57,7 +59,7 @@ public class Product extends BaseEntity {
         return category;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 
