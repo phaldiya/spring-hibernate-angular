@@ -100,7 +100,6 @@ gulp.task('copy', ['clean'], function () {
         'bower_components/angulartics/dist/angulartics-ga.min.js',
         'bower_components/lodash/dist/lodash.js',
         'bower_components/lodash/dist/lodash.min.js',
-        'bower_components/lodash/dist/lodash.min.js',
         'bower_components/momentjs/moment.js',
         'bower_components/momentjs/min/moment.min.js',
         'bower_components/less.js/dist/less.js',
