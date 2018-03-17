@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -35,9 +36,10 @@ public class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response)
-            throws AuthenticationException, IOException, ServletException {
+            throws AuthenticationException, IOException {
 
-        final User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+        Map map = new ObjectMapper().readValue(request.getInputStream(), Map.class);
+        final User user = new User(map);
         final UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(
                 user.getUsername(), user.getPassword());
         return getAuthenticationManager().authenticate(loginToken);

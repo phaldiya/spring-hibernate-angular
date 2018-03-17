@@ -19,7 +19,7 @@ public class TokenAuthenticationFilter extends StatelessLoginFilter {
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
         return super.getTokenAuthenticationService().getAuthentication(request);
     }
 }

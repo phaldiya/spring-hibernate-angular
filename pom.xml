@@ -286,4 +286,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <!--Repositories-->
+    <repositories>
+        <repository>
+            <id>maven-central</id>
+            <name>repo</name>
+            <url>http://repo.maven.apache.org/maven2</url>
+        </repository>
+    </repositories>
 </project>

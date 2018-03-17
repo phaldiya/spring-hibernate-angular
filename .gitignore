@@ -30,3 +30,5 @@ vendor.js
 vendor.js.gz
 build.js
 templates.js
+
+.node

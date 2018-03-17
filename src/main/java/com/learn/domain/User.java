@@ -3,6 +3,7 @@ package com.learn.domain;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -26,10 +27,15 @@ public class User extends BaseEntity implements UserDetails {
         this.username = username;
     }
 
-    /*public User(String username, Date expires) {
+    public User(Map map) {
+        this.username = (String) map.get("username");
+        this.password = (String) map.get("password");
+    }
+
+    public User(String username, Date expires) {
         this.username = username;
         this.expires = expires.getTime();
-    }*/
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
