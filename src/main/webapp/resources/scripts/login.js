@@ -7,7 +7,7 @@ angular.module('app', [])
             $scope.authenticated = false;
             $scope.hasError = false;
 
-            $http.post('api/login', { username: $scope.username, password: $scope.password }).success(function (result, status, headers) {
+            $http.post('api/login', { username: $scope.username, password: $scope.password }, {withCredentials: true}).success(function (result, status, headers) {
                 if (headers('X-AUTH-TOKEN') !== null) {
                     $scope.authenticated = true;
                     $window.sessionStorage.token = headers('X-AUTH-TOKEN');
