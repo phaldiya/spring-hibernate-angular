@@ -12,9 +12,7 @@
     <link type="image/x-icon" rel="icon" href="../resources/img/favicon.png">
 
     <!-- inject:css -->
-    <link rel="stylesheet/less" type="text/css" href="../resources/css/project.less" />
-    <script>var less = { logLevel: 1 };</script>
-    <script src="../resources/lib/less.js"></script>
+    <link rel="stylesheet" href="../resources/css/build.css">
     <!-- endinject -->
 </head>
 <body ng-controller="NavigationCtrl" ng-class="{active: sideMenu}" ng-init="init()" >
@@ -134,15 +132,7 @@
 <![endif]-->
 
 <!-- inject:vendor:js -->
-<script src="../resources/lib/angular.js"></script>
-<script src="../resources/lib/angular-animate.js"></script>
-<script src="../resources/lib/angular-cookies.js"></script>
-<script src="../resources/lib/angular-resource.js"></script>
-<script src="../resources/lib/angular-route.js"></script>
-<script src="../resources/lib/angular-touch.js"></script>
-<script src="../resources/lib/angular-aria.js"></script>
-<script src="../resources/lib/ui-bootstrap.js"></script>
-<script src="../resources/lib/lodash.js"></script>
+<script src="../resources/lib/vendor.js"></script>
 <!-- endinject -->
 
 <script src="../resources/scripts/app.js"></script>

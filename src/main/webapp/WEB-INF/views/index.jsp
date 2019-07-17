@@ -11,8 +11,7 @@
     <link type="image/x-icon" rel="icon" href="resources/img/favicon.png">
 
     <!-- inject:css -->
-    <link rel="stylesheet/less" type="text/css" href="resources/css/project.less" />
-    <script src="resources/lib/less.js"></script>
+    <link rel="stylesheet" href="resources/css/build.css">
     <!-- endinject -->
 </head>
 <body class="splash">
@@ -41,7 +40,7 @@
     </div>
 
 <!-- inject:vendor:js -->
-<script src="resources/lib/angular.js"></script>
+<script src="resources/lib/vendor.js"></script>
 <!-- endinject -->
 
 <script src="resources/scripts/login.js"></script>
