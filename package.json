@@ -25,7 +25,7 @@
     "jasmine-spec-reporter": "~4.2.1",
     "jshint": "^2.10.2",
     "jshint-stylish": "^2.2.1",
-    "karma": "^2.0.0",
+    "karma": "^6.3.14",
     "karma-chrome-launcher": "^3.0.0",
     "karma-jasmine": "^2.0.1",
     "karma-phantomjs-launcher": "latest",
