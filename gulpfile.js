@@ -3,18 +3,19 @@
 var gulp = require('gulp');
 var del = require('del');
 var concat = require('gulp-concat');
-var cssmin = require('gulp-cssmin');
+var cleanCSS = require('gulp-clean-css');
 var htmlify = require('gulp-angular-htmlify');
 var inject = require("gulp-inject");
 var jshint = require('gulp-jshint');
 var less = require('gulp-less');
+var merge = require('merge-stream');
 var protractor = require("gulp-protractor").protractor;
 var rename = require("gulp-rename");
 var templateCache = require('gulp-angular-templatecache');
-var karma = require('karma').server;
+var Server = require('karma').Server;
 
 var karmaConfig = {
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
     frameworks: ['jasmine', 'sinon'],
     reporters: ['spec'],
     files: [
@@ -62,33 +63,40 @@ gulp.task('lint', function () {
         .pipe(jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('spec', ['lint'], function (done) {
+gulp.task('spec', gulp.series('lint', function spec(done) {
     karmaConfig.singleRun = true;
-    karma.start(karmaConfig, done);
-});
+    new Server(karmaConfig, done).start();
+}));
 
-gulp.task('spec:watch', ['lint'], function (done) {
-    karma.start(karmaConfig, done);
-});
+gulp.task('spec:watch', gulp.series('lint', function specWatch(done) {
+    new Server(karmaConfig, done).start();
+}));
 
-gulp.task('e2e', ['lint'], function (done) {
+gulp.task('e2e', gulp.series('lint', function e2e() {
     return gulp.src(e2eSourceFiles)
         .pipe(protractor({
             configFile: "protractor.conf.js",
             args: []
         }));
-});
+}));
 
-gulp.task('e2e:debug', ['lint'], function (done) {
+gulp.task('e2e:debug', gulp.series('lint', function e2eDebug() {
     return gulp.src(e2eSourceFiles)
         .pipe(protractor({
             configFile: "protractor.conf.js",
             args: ['debug']
         }));
+}));
+
+gulp.task('clean', function () {
+    return del(['src/main/webapp/resources/css/build.css',
+        'src/main/webapp/resources/lib/vendor.js',
+        'src/main/webapp/resources/scripts/build.js',
+        'src/main/webapp/resources/scripts/templates.js']);
 });
 
-gulp.task('copy', ['clean'], function () {
-    gulp.src(['bower_components/angular/angular.*',
+gulp.task('copy', gulp.series('clean', function copy() {
+    var libs = gulp.src(['bower_components/angular/angular.*',
         'bower_components/angular-resource/angular-resource.*',
         'bower_components/angular-route/angular-route.*',
         'bower_components/angular-animate/angular-animate.*',
@@ -107,35 +115,21 @@ gulp.task('copy', ['clean'], function () {
         'bower_components/angular-ui-bootstrap-bower/ui-bootstrap.*'])
         .pipe(gulp.dest('./src/main/webapp/resources/lib/'));
 
-    /*gulp.src('bower_components/less.js/dist/less-1.7.3.js')
-        .pipe(rename('less.js'))
-        .pipe(gulp.dest('./src/main/webapp/resources/lib/'));
-
-    gulp.src('bower_components/less.js/dist/less-1.7.3.min.js')
-        .pipe(rename('less.min.js'))
-        .pipe(gulp.dest('./src/main/webapp/resources/lib/'));*/
-
-
-    return gulp.src('bower_components/bootstrap/less/**')
+    var bootstrap = gulp.src('bower_components/bootstrap/less/**')
         .pipe(gulp.dest('./src/main/webapp/resources/css/bootstrap/'));
-});
 
-gulp.task('clean', function (cb) {
-    return del(['src/main/webapp/resources/css/build.css',
-        'src/main/webapp/resources/lib/vendor.js',
-        'src/main/webapp/resources/scripts/build.js',
-        'src/main/webapp/resources/scripts/templates.js'], cb);
-});
+    return merge(libs, bootstrap);
+}));
 
-gulp.task('less', function (done) {
+gulp.task('less', function () {
     return gulp.src('src/main/webapp/resources/css/project.less')
         .pipe(less())
-        .pipe(cssmin())
+        .pipe(cleanCSS())
         .pipe(rename('build.css'))
         .pipe(gulp.dest('src/main/webapp/resources/css/'));
 });
 
-gulp.task('js:lib', function (done) {
+gulp.task('js:lib', function () {
     return gulp.src(['src/main/webapp/resources/lib/angular.min.js',
         'src/main/webapp/resources/lib/angular-animate.min.js',
         'src/main/webapp/resources/lib/angular-cookies.min.js',
@@ -153,14 +147,14 @@ gulp.task('js:lib', function (done) {
         .pipe(gulp.dest('src/main/webapp/resources/lib/'));
 });
 
-gulp.task('js:scripts', function (done) {
+gulp.task('js:scripts', function () {
     return gulp.src(['src/main/webapp/resources/scripts/**/*.js', '!src/main/webapp/resources/scripts/build.js', '!src/main/webapp/resources/scripts/templates.js', '!src/main/webapp/resources/scripts/main.js'])
         .pipe(concat('build.js'))
 //        .pipe(uglify({mangle: false}))
         .pipe(gulp.dest('src/main/webapp/resources/scripts/'));
 });
 
-gulp.task('templates', function (done) {
+gulp.task('templates', function () {
     return gulp.src('src/main/webapp/resources/scripts/controllers/**/*.html')
         .pipe(templateCache({module: 'app', root: '../resources/scripts/controllers/'}))
         .pipe(htmlify())
@@ -168,15 +162,15 @@ gulp.task('templates', function (done) {
 
 });
 
-gulp.task('build', ['less', 'js:lib', 'js:scripts', 'templates'], function (done) {
-    gulp.src(['src/main/webapp/WEB-INF/views/index.jsp'])
+gulp.task('build', gulp.series(gulp.parallel('less', 'js:lib', 'js:scripts', 'templates'), function build() {
+    var indexJsp = gulp.src(['src/main/webapp/WEB-INF/views/index.jsp'])
         .pipe(inject(gulp.src('src/main/webapp/resources/lib/vendor.js', {read: false}),
             {ignorePath: '/src/main/webapp/', addRootSlash: false, starttag: '<!-- inject:vendor:{{ext}} -->'}))
         .pipe(inject(gulp.src(['src/main/webapp/resources/css/build.css', 'src/main/webapp/resources/scripts/build.js', 'src/main/webapp/resources/scripts/templates.js'], {read: false}),
             {ignorePath: '/src/main/webapp/', addRootSlash: false}))
         .pipe(gulp.dest('src/main/webapp/WEB-INF/views/'));
 
-    return gulp.src(['src/main/webapp/WEB-INF/views/devtool.jsp', 'src/main/webapp/WEB-INF/views/secure.jsp'])
+    var otherJsps = gulp.src(['src/main/webapp/WEB-INF/views/devtool.jsp', 'src/main/webapp/WEB-INF/views/secure.jsp'])
         .pipe(inject(gulp.src('src/main/webapp/resources/lib/vendor.js', {read: false}),
             {
                 ignorePath: '/src/main/webapp/',
@@ -187,22 +181,6 @@ gulp.task('build', ['less', 'js:lib', 'js:scripts', 'templates'], function (done
         .pipe(inject(gulp.src(['src/main/webapp/resources/css/build.css', 'src/main/webapp/resources/scripts/build.js', 'src/main/webapp/resources/scripts/templates.js'], {read: false}),
             {ignorePath: '/src/main/webapp/', addPrefix: '..', addRootSlash: false}))
         .pipe(gulp.dest('src/main/webapp/WEB-INF/views/'));
-});
 
-
-/*gulp.task('changelog', function () {
-    var options = {
-        repository: 'https://dphung@bitbucket.org/ucd-itservices/radical.git',
-        version: require('./package.json').version
-    };
-    changelog(options, function (error, log) {
-        fs.writeFile("./CHANGELOG.md", log, function (error) {
-            if (error) {
-                gutil.log(gutil.colors.red(fail + ': ' + error));
-            } else {
-                gutil.log(gutil.colors.green('Success'));
-                return;
-            }
-        });
-    });
-});*/
+    return merge(indexJsp, otherJsps);
+}));
